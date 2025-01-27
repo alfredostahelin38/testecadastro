@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Itens</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            max-width: 400px;
+            margin: 20px auto;
+        }
+        li {
+            background: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Cadastro de Itens</h1>
+    <form id="itemForm">
+        <label for="itemName">Nome do Item:</label>
+        <input type="text" id="itemName" placeholder="Digite o nome do item" required>
+        <button type="submit">Adicionar Item</button>
+    </form>
+
+    <h2>Itens Cadastrados</h2>
+    <ul id="itemList"></ul>
+
+    <script>
+        // Função para carregar itens do localStorage
+        function loadItems() {
+            const items = JSON.parse(localStorage.getItem('items')) || [];
+            const itemList = document.getElementById('itemList');
+            itemList.innerHTML = ''; // Limpa a lista antes de carregar
+
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                itemList.appendChild(li);
+            });
+        }
+
+        // Função para adicionar um novo item
+        document.getElementById('itemForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // Evita o recarregamento da página
+
+            const itemName = document.getElementById('itemName').value;
+            const items = JSON.parse(localStorage.getItem('items')) || [];
+
+            items.push(itemName); // Adiciona o novo item
+            localStorage.setItem('items', JSON.stringify(items)); // Salva no localStorage
+
+            loadItems(); // Atualiza a lista de itens
+            document.getElementById('itemName').value = ''; // Limpa o campo de input
+        });
+
+        // Carrega os itens ao carregar a página
+        window.onload = loadItems;
+    </script>
+</body>
+</html>
